@@ -1,0 +1,149 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnLab | Smart Study Summaries</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <h1>Welcome to LearnLab</h1>
+        <p>Custom study summaries for every learner — Grade 8 to 12.</p>
+        <a href="#form-section" class="btn-main">Order Your Summary</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Form Section -->
+  <section id="form-section" class="form-area">
+    <h2>Request a Summary</h2>
+    <form id="summaryForm" action="https://formsubmit.co/learn4lab@gmail.com" method="POST">
+
+
+     <label>Full Name:</label>
+<input type="text" id="fullName" name="Full Name" placeholder="Enter your full name" required>
+
+<label>Email Address:</label>
+<input type="email" id="email" name="Email" placeholder="Enter your email address" required>
+
+  <label>Grade:</label>
+  <select id="grade" name="Grade" required>
+    <option value="">Select Grade</option>
+    <option>Grade 8</option>
+    <option>Grade 9</option>
+    <option>Grade 10</option>
+    <option>Grade 11</option>
+    <option>Grade 12</option>
+  </select>
+
+  <label>Subject:</label>
+  <select id="subject" name="Subject" required>
+    <option value="">Select Subject</option>
+    <option>Mathematics</option>
+    <option>Life Sciences</option>
+    <option>Geography</option>
+    <option>History</option>
+    <option>English</option>
+  </select>
+
+  <label>Textbook Name:</label>
+  <input type="text" id="textbook" name="Textbook" placeholder="Enter textbook name" required>
+
+  <label>Pages (e.g. 1 - 10):</label>
+  <input type="number" id="pages" name="Pages" placeholder="Enter number of pages" required>
+
+  <label>Due Date:</label>
+<input type="date" id="dueDate" name="Due Date" required>
+
+  <label>Summary Type:</label>
+  <select id="summaryType" name="Summary Type" required>
+    <option value="">Choose Type</option>
+    <option value="handwritten">Handwritten</option>
+    <option value="typed">Typed</option>
+  </select>
+
+  <label>Price (auto-calculated):</label>
+  <input type="text" id="price" name="Price" readonly>
+
+  <label>Upload Pages:</label>
+  <input type="file" id="fileUpload" name="File" accept=".jpg,.jpeg,.png,.pdf">
+
+  <!-- Hidden fields -->
+     <input type="hidden" name="_subject" value="New LearnLab Summary Request">
+    <input type="hidden" name="_next" value="http://127.0.0.1:5500/thankyou.html">
+     <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_subject" value="New Summary Request from LearnLab">
+
+  <button type="submit" class="btn-main">Send Request</button>
+</form>
+
+  </section>
+
+<!-- Feedback Submission Form -->
+<section id="feedback" class="feedback">
+  <h2>Share Your Experience</h2>
+  <p>We love hearing from our students! Send us your feedback below.</p>
+
+  <form action="https://formsubmit.co/learn4lab@gmail.com" method="POST" class="feedback-form">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <textarea name="message" placeholder="Your Feedback" required></textarea>
+    <button type="submit">Submit Feedback</button>
+  </form>
+</section>
+
+<!-- Testimonials Carousel -->
+<section id="testimonials" class="testimonials">
+  <h2>What Our Students Say</h2>
+  <div class="testimonial-slider">
+
+    <div class="testimonial-card">
+      <img src="images/student1.jpg" alt="Student 1">
+      <h3>Thandi M.</h3>
+      <p class="quote">“The summaries helped me pass Life Sciences with distinction! Thank you LearnLab!”</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="images/student2.jpg" alt="Student 2">
+      <h3>Riaan P.</h3>
+      <p class="quote">“Clear, well-organized notes that made revision so easy. Highly recommended.”</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="images/student3.jpg" alt="Student 3">
+      <h3>Anele K.</h3>
+      <p class="quote">“The handwritten notes were perfect for visual learning — love the service!”</p>
+      <div class="stars">★★★★☆</div>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="images/student4.jpg" alt="Student 4">
+      <h3>Kayla N.</h3>
+      <p class="quote">“LearnLab summaries saved me during exam week. Fast delivery and excellent detail.”</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+    <div class="testimonial-card">
+      <img src="images/student5.jpg" alt="Student 5">
+      <h3>Michael S.</h3>
+      <p class="quote">“I finally understood Accounting topics thanks to LearnLab’s clear typed summaries!”</p>
+      <div class="stars">★★★★★</div>
+    </div>
+
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 LearnLab | learn4lab@gmail.com</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

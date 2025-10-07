@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LearnLab Request Dashboard</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: url("images/dashboard-bg.jpg") no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+      padding: 40px;
+      backdrop-filter: blur(4px);
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    #requestCount {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #ffd966;
+    }
+
+    /* Filter Buttons */
+    .filter-buttons {
+      margin-bottom: 20px;
+    }
+
+    .filter-buttons button {
+      padding: 10px 20px;
+      margin: 0 5px;
+      border: none;
+      border-radius: 6px;
+      background-color: white;
+      color: #0059b3;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .filter-buttons button:hover {
+      background-color: #003d80;
+      color: white;
+    }
+
+    table {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    th {
+      background: rgba(0, 0, 0, 0.3);
+      text-transform: uppercase;
+    }
+
+    tr:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    td.status {
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    td.status.completed {
+      color: #00ff99;
+      font-weight: bold;
+    }
+
+    .btn-clear {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background-color: white;
+      color: #0059b3;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn-clear:hover {
+      background-color: #003d80;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>📋 LearnLab Request Dashboard</h1>
+  <p id="requestCount">Total Requests: 0</p>
+
+  <!-- Filter Buttons -->
+  <div class="filter-buttons">
+    <button onclick="filterRequests('all')">Show All</button>
+    <button onclick="filterRequests('Pending')">Pending Only</button>
+    <button onclick="filterRequests('Completed')">Completed Only</button>
+  </div>
+
+  <table id="requestTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Grade</th>
+        <th>Subject</th>
+        <th>Pages</th>
+        <th>Summary Type</th>
+        <th>Due Date</th>
+        <th>Price</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Requests will load here -->
+    </tbody>
+  </table>
+
+  <button class="btn-clear" onclick="clearRequests()">Clear All Requests</button>
+
+  <script>
+    let requests = JSON.parse(localStorage.getItem("learnlabRequests")) || [];
+    const tableBody = document.querySelector("#requestTable tbody");
+    const countDisplay = document.getElementById("requestCount");
+
+    function loadRequests(filter = "all") {
+      tableBody.innerHTML = "";
+      let filtered = requests;
+
+      if (filter !== "all") {
+        filtered = requests.filter(r => (r.status || "Pending") === filter);
+      }
+
+      filtered.forEach((req, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${req.name}</td>
+          <td>${req.email}</td>
+          <td>${req.grade}</td>
+          <td>${req.subject}</td>
+          <td>${req.pages}</td>
+          <td>${req.type}</td>
+          <td>${req.date}</td>
+          <td>${req.price}</td>
+          <td class="status ${req.status === "Completed" ? "completed" : ""}" data-index="${index}">
+            ${req.status || "Pending"}
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      countDisplay.textContent = "Total Requests: " + filtered.length;
+
+      document.querySelectorAll(".status").forEach(cell => {
+        cell.addEventListener("click", function() {
+          const idx = this.dataset.index;
+          requests[idx].status = requests[idx].status === "Completed" ? "Pending" : "Completed";
+          localStorage.setItem("learnlabRequests", JSON.stringify(requests));
+          loadRequests(filter);
+        });
+      });
+    }
+
+    function filterRequests(type) {
+      loadRequests(type);
+    }
+
+    function clearRequests() {
+      localStorage.removeItem("learnlabRequests");
+      requests = [];
+      loadRequests();
+      alert("All requests cleared!");
+    }
+
+    loadRequests();
+  </script>
+</body>
+</html>
