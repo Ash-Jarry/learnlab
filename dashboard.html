@@ -138,7 +138,7 @@ async function loadRequests() {
   tableBody.innerHTML = "<tr><td colspan='9'>Loading...</td></tr>";
 
   try {
-    const res = await fetch("https://script.google.com/macros/s/AKfycbyfdb6dIuLXqD3wqCNZKb-hT4udQBo9a1LVJZeUscXkDCeX0m8s5Jq8wQtaYur-Qajs/exec");
+    const res = await fetch("https://script.google.com/macros/s/AKfycbzwN1HnijsOxAe748w9bHvbGPuSNdyyMoXdpyY2PDhk0QsmyaedmySkSZf6k_E3dH09/exec");
     const data = await res.json();
 
     if (!data.length) {
@@ -177,4 +177,5 @@ loadRequests();
 </script>
 </body>
 </html>
+
 
