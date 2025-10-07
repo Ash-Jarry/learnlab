@@ -26,29 +26,33 @@ document.addEventListener("DOMContentLoaded", function() {
   pagesInput.addEventListener("input", updatePrice);
   summaryType.addEventListener("change", updatePrice);
 
-  // === Save Request & Send Form ===
-  form.addEventListener("submit", function(e) {
-    e.preventDefault(); // stop the browser for a moment
+  // === Send to Google Sheet ===
+  form.addEventListener("submit", async function(e) {
+    e.preventDefault();
 
-    const request = {
-      name: document.getElementById("fullName")?.value || "",
-      email: document.getElementById("email")?.value || "",
-      grade: document.getElementById("grade")?.value || "",
-      subject: document.getElementById("subject")?.value || "",
-      pages: document.getElementById("pages")?.value || "",
-      type: document.getElementById("summaryType")?.value || "",
-      date: document.getElementById("dueDate")?.value || "",
-      price: document.getElementById("price")?.value || ""
+    const data = {
+      name: document.getElementById("fullName").value,
+      email: document.getElementById("email").value,
+      grade: document.getElementById("grade").value,
+      subject: document.getElementById("subject").value,
+      pages: document.getElementById("pages").value,
+      summaryType: document.getElementById("summaryType").value,
+      dueDate: document.getElementById("dueDate").value,
+      price: document.getElementById("price").value
     };
 
-    // Save to localStorage
-    let requests = JSON.parse(localStorage.getItem("learnlabRequests")) || [];
-    requests.push(request);
-    localStorage.setItem("learnlabRequests", JSON.stringify(requests));
-
-    alert("Your LearnLab request has been saved and sent!");
-
-    // Now submit form to FormSubmit
-    e.target.submit();
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbyfdb6dIuLXqD3wqCNZKb-hT4udQBo9a1LVJZeUscXkDCeX0m8s5Jq8wQtaYur-Qajs/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {"Content-Type": "application/json"}
+      });
+      alert("✅ Your LearnLab request was submitted successfully!");
+      form.reset();
+    } catch (err) {
+      console.error("Error submitting:", err);
+      alert("❌ Something went wrong. Please try again.");
+    }
   });
 });
+
