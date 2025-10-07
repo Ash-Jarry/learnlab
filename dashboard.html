@@ -132,61 +132,49 @@
 
   <button class="btn-clear" onclick="clearRequests()">Clear All Requests</button>
 
-  <script>
-    let requests = JSON.parse(localStorage.getItem("learnlabRequests")) || [];
-    const tableBody = document.querySelector("#requestTable tbody");
-    const countDisplay = document.getElementById("requestCount");
+ <script>
+async function loadRequests() {
+  const tableBody = document.querySelector("#requestTable tbody");
+  tableBody.innerHTML = "<tr><td colspan='9'>Loading...</td></tr>";
 
-    function loadRequests(filter = "all") {
-      tableBody.innerHTML = "";
-      let filtered = requests;
+  try {
+    const res = await fetch("https://script.google.com/macros/s/AKfycbyfdb6dIuLXqD3wqCNZKb-hT4udQBo9a1LVJZeUscXkDCeX0m8s5Jq8wQtaYur-Qajs/exec");
+    const data = await res.json();
 
-      if (filter !== "all") {
-        filtered = requests.filter(r => (r.status || "Pending") === filter);
-      }
-
-      filtered.forEach((req, index) => {
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${req.name}</td>
-          <td>${req.email}</td>
-          <td>${req.grade}</td>
-          <td>${req.subject}</td>
-          <td>${req.pages}</td>
-          <td>${req.type}</td>
-          <td>${req.date}</td>
-          <td>${req.price}</td>
-          <td class="status ${req.status === "Completed" ? "completed" : ""}" data-index="${index}">
-            ${req.status || "Pending"}
-          </td>
-        `;
-        tableBody.appendChild(row);
-      });
-
-      countDisplay.textContent = "Total Requests: " + filtered.length;
-
-      document.querySelectorAll(".status").forEach(cell => {
-        cell.addEventListener("click", function() {
-          const idx = this.dataset.index;
-          requests[idx].status = requests[idx].status === "Completed" ? "Pending" : "Completed";
-          localStorage.setItem("learnlabRequests", JSON.stringify(requests));
-          loadRequests(filter);
-        });
-      });
+    if (!data.length) {
+      tableBody.innerHTML = "<tr><td colspan='9'>No requests found</td></tr>";
+      return;
     }
 
-    function filterRequests(type) {
-      loadRequests(type);
-    }
+    tableBody.innerHTML = "";
+    data.forEach(r => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${r["name"] || ""}</td>
+        <td>${r["email"] || ""}</td>
+        <td>${r["grade"] || ""}</td>
+        <td>${r["subject"] || ""}</td>
+        <td>${r["pages"] || ""}</td>
+        <td>${r["summaryType"] || ""}</td>
+        <td>${r["dueDate"] || ""}</td>
+        <td>${r["price"] || ""}</td>
+        <td><span style="color:orange;font-weight:bold;">Pending</span></td>
+      `;
+      tableBody.appendChild(row);
+    });
+  } catch (err) {
+    console.error("Error:", err);
+    tableBody.innerHTML = "<tr><td colspan='9'>Error loading data</td></tr>";
+  }
+}
 
-    function clearRequests() {
-      localStorage.removeItem("learnlabRequests");
-      requests = [];
-      loadRequests();
-      alert("All requests cleared!");
-    }
+// Optional: manual refresh button
+function refreshDashboard() {
+  loadRequests();
+}
 
-    loadRequests();
-  </script>
+loadRequests();
+</script>
 </body>
 </html>
+
